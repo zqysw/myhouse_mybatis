@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myhouse.inter.IStreetOperation">
+<!-- 为了返回list 类型而定义的returnMap -->
+    <resultMap type="com.myhouse.entity.Street" id="resultListStreet">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="distinct_id" property="distinct_id" />
+    </resultMap>
+<!-- 返回list 的select 语句，注意 resultMap 的值是指向前面定义好的 -->
+    <select id="selStreet" parameterType="string" resultMap="resultListStreet">
+       select * from street order by id desc
+    </select>
+    <select id="selStreetById" parameterType="int" resultType="com.myhouse.entity.Street">
+    select * from street where id =#{id};
+    </select>
+</mapper> 

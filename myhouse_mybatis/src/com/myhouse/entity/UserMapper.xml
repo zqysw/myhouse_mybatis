@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+		<mapper namespace="com.myhouse.inter.IUserOperation">
+			<select id="selUserByName" parameterType="String"
+				resultType="com.myhouse.entity.User">
+				select * from users where name like #{name}
+	</select>
+			<select id="selUserIsTrue" parameterType="String" resultType="boolean">
+				select * from users where name like #{name}
+	</select>
+			<insert id="addUser" parameterType="com.myhouse.entity.User">
+				insert users(name,password,telephone,username,isadmin)
+				values(#{name},#{password},#{telephone},#{username},0)
+			</insert>
+		</mapper>

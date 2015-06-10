@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myhouse.inter.IHouseInfoOperation">
+<select id="selHouseTypeNameById" parameterType="int" resultType="string">
+select name from type where id = #{id}
+</select>
+<select id="selDistrictNameById" parameterType="int" resultType="string">
+select name from district where id = #{id}
+</select>
+<select id="selStreetNameById" parameterType="int" resultType="string">
+select name from street where id = #{id}
+</select>
+<insert id="addHouse" parameterType="com.myhouse.entity.HouseInfo">
+insert into houseinfo(title,housetype,floorage,price,housedate,district_id,street_id,phone,content,owner) 
+values(#{title},#{housetype},#{floorage},#{price},#{housedate},#{district_id},#{street_id},#{phone},#{content},#{owner})
+</insert>
+<delete id="delHouseById" parameterType="int" >
+delete from houseinfo where id = #{id}
+</delete>
+<select id="selHouseByTitle" parameterType="string" resultType="boolean">
+select * from houseinfo where title like #{title}
+</select>
+<select id="selHouseById" parameterType="int" resultType="boolean">
+select * from houseinfo where id = #{id}
+</select>
+<select id="selHouseByHD" parameterType="int" resultType="com.myhouse.entity.HouseInfo">
+select * from houseinfo where id = #{id}
+</select>
+<!-- 为了返回list 类型而定义的returnMap -->
+    <resultMap type="com.myhouse.entity.HouseInfo" id="resultListHouse">
+        <id column="id" property="id" />
+        <result column="phone" property="phone" />
+        <result column="content" property="content" />
+        <result column="district_id" property="district_id" />
+        <result column="floorage" property="floorage" />
+        <result column="housedate" property="housedate" />
+        <result column="housetype" property="housetype" />
+        <result column="price" property="price" />
+        <result column="street_id" property="street_id" />
+        <result column="title" property="title" />
+        <result column="owner" property="owner" />
+    </resultMap>
+<!-- 返回list 的select 语句，注意 resultMap 的值是指向前面定义好的 -->
+    <select id="selAllHouse"  resultMap="resultListHouse">
+       select * from houseinfo order by id desc
+    </select>
+    
+    <!-- 为了返回list 类型而定义的returnMap -->
+    <resultMap type="com.myhouse.entity.HouseInfo" id="resultListHouseByPage">
+        <id column="id" property="id" />
+        <result column="phone" property="phone" />
+        <result column="content" property="content" />
+        <result column="district_id" property="district_id" />
+        <result column="floorage" property="floorage" />
+        <result column="housedate" property="housedate" />
+        <result column="housetype" property="housetype" />
+        <result column="price" property="price" />
+        <result column="street_id" property="street_id" />
+        <result column="title" property="title" />
+        <result column="owner" property="owner" />
+    </resultMap>
+<!-- 返回list 的select 语句，注意 resultMap 的值是指向前面定义好的 -->
+    <select id="selHousesByPage"  resultMap="resultListHouseByPage">
+      select * from houseinfo
+      <where>
+      <if test="#{2}!=null and #{2}!=''">
+      title = #{2}
+      </if>
+      </where> 
+      limit #{0},#{1} order by id desc
+    </select>
+    
+   <!-- 为了返回list 类型而定义的returnMap -->
+    <resultMap type="com.myhouse.entity.HouseInfo" id="search">
+        <id column="id" property="id" />
+        <result column="phone" property="phone" />
+        <result column="content" property="content" />
+        <result column="district_id" property="district_id" />
+        <result column="floorage" property="floorage" />
+        <result column="housedate" property="housedate" />
+        <result column="housetype" property="housetype" />
+        <result column="price" property="price" />
+        <result column="street_id" property="street_id" />
+        <result column="title" property="title" />
+        <result column="owner" property="owner" />
+    </resultMap>
+<!-- 返回list 的select 语句，注意 resultMap 的值是指向前面定义好的 -->
+    <select id="search"  resultMap="search" parameterType="com.myhouse.entity.SearchAll">
+      select * from houseinfo 
+      <where>
+      <if test=" title !=null and  title !=''">
+      title like #{title} 
+      </if>
+      <if test="type_id!=null and type_id!=''">
+      and housetype = #{type_id}
+      </if>
+      <if test="street_id!=null and street_id!=''">
+      and street_id = #{street_id}
+      </if>
+      <if test="low_price!=0">
+       and price &gt; #{low_price} and price &lt;= #{high_price} 
+      </if>
+      <if test="low_floorage!=-1">
+      and floorage &gt; #{low_floorage} and floorage &lt;= #{high_floorage} 
+      </if>
+      </where> 
+       limit #{pageindex},#{pagesize}
+    </select>
+    
+     <!-- 为了返回list 类型而定义的returnMap -->
+    <resultMap type="com.myhouse.entity.HouseInfo" id="selHousesByName">
+        <id column="id" property="id" />
+        <result column="phone" property="phone" />
+        <result column="content" property="content" />
+        <result column="district_id" property="district_id" />
+        <result column="floorage" property="floorage" />
+        <result column="housedate" property="housedate" />
+        <result column="housetype" property="housetype" />
+        <result column="price" property="price" />
+        <result column="street_id" property="street_id" />
+        <result column="title" property="title" />
+        <result column="owner" property="owner" />
+    </resultMap>
+<!-- 返回list 的select 语句，注意 resultMap 的值是指向前面定义好的 -->
+    <select id="selHousesByName" parameterType="com.myhouse.entity.SelByName" resultMap="selHousesByName" >
+      select * from houseinfo  where owner =#{name} order by id desc limit #{pageindex},#{pagesize}
+    </select>
+    <update id="UpdateHouse" parameterType="com.myhouse.entity.HouseInfo" >
+    update houseinfo set title = #{title},housetype = #{housetype},floorage = #{floorage}, price = #{price},housedate = #{housedate}
+				district_id =#{district_id},street_id =#{street_id},phone = #{phone},content = #{content} ,owner = #{owner} where id =#{id}
+    </update>
+    <select id="selHouseCount" parameterType="string" resultType="int">
+    select count(*) as num from houseinfo
+    <where>
+    <if test="#{key}!=null and #{key}!=''">
+    title like #{key}
+    </if>
+    </where>
+    </select>
+    <select id="selHouseCountByAll" resultType="int" parameterType="com.myhouse.entity.SelCountByAll">
+    select count(*) as num from houseinfo
+     <where>
+      <if test="title!=null and title !='' ">
+       title like #{title}
+      </if>
+      <if test="type_id!=null and type_id !=''">
+      and housetype = #{type_id}
+      </if>
+      <if test="street_id!=null and street_id !=''">
+      and street_id = #{street_id}
+      </if>
+      <if test="low_price!=0">
+       and price &gt;#{low_price} and price&lt;=#{high_price} 
+      </if>
+      <if test="low_floorage!=-1 ">
+      and floorage &gt; #{low_floorage} and floorage &lt;= #{high_floorage} 
+      </if>
+      </where> 
+    </select>
+    
+    <select id="selHouseCountByName" parameterType="string" resultType="int">
+    select count(*) as num from houseinfo where owner = #{name}
+    </select>
+</mapper>

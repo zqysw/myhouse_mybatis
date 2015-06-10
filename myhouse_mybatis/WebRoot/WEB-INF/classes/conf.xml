@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://localhost:3306/myhouse" />
+				<property name="username" value="java3g" />
+				<property name="password" value="java3g" />
+			</dataSource>
+
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="com/myhouse/entity/UserMapper.xml" />
+		<mapper resource="com/myhouse/entity/StreetMapper.xml"/>
+		<mapper resource="com/myhouse/entity/DistrictMapper.xml"/>
+		<mapper resource="com/myhouse/entity/HouseTypeMapper.xml"/>
+		<mapper resource="com/myhouse/entity/FileInfoMapper.xml"/>
+		<mapper resource="com/myhouse/entity/HouseInfoMapper.xml"/>
+	</mappers>
+</configuration>
